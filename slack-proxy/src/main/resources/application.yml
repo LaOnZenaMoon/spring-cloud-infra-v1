@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: slack-proxy
+  profiles:
+    active: local
+
+
+server:
+  port: 8090
+
+management:
+  endpoints.web.exposure.include: "*"
+  endpoint.health.show-details: ALWAYS
+
+logging.level:
+  root: info
+  lozm: debug
+  org.springframework.web.filter.CommonsRequestLoggingFilter: debug
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+slack:
+  baseUrl:
+  baseWebhookUrl:
+  webhooks:
+    - channel: jenkins
+      url:

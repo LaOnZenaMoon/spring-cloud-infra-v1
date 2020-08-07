@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: srpingboot-admin
+  profiles:
+    active: local
+  boot:
+    admin:
+      discovery:
+        ignored-services: srpingboot-admin
+#  boot.admin:
+#    monitor:
+#      info-lifetime: 60H
+
+server:
+  port: 9080
+
+logging:
+  level:
+    root: info
+    de.codecentric: info
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+
+management:
+  endpoints.web.exposure.include: "*"
+  endpoint.health.show-details: ALWAYS

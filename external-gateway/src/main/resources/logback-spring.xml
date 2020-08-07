@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <property name="APPLICATION_LOG_FILE_NAME" value="application"/>
+    <property name="ERROR_LOG_FILE_NAME" value="error"/>
+    <property name="LOG_CHARSET" value="UTF-8"/>
+    <springProperty scope="context" name="LOG_LEVEL" source="logging.level.root" defaultValue="info"/>
+    <springProperty scope="context" name="LOG_PATH" source="logging.file.path" defaultValue="logs"/>
+    <springProperty scope="context" name="APPLICATION_NAME" source="spring.application.name" defaultValue="unknown-app"/>
+    <springProperty scope="context" name="PROFILES" source="spring.profiles.active" defaultValue="unknown"/>
+    <springProperty scope="context" name="SLACK_ENABLED" source="logging.slack.enabled" defaultValue="true"/>
+    <springProperty scope="context" name="SLACK_HOOK_URL" source="logging.slack.webhook-url"/>
+    <springProperty scope="context" name="SLACK_CHANNEL" source="logging.slack.channel" defaultValue="infra-dev"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>${LOG_CHARSET}</charset>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SLACK" class="lozm.global.logging.SlackAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>[*%level*] %logger{50}\n%m%n</pattern>
+        </layout>
+        <enabled>${SLACK_ENABLED}</enabled>
+        <webhookUrl>${SLACK_HOOK_URL}</webhookUrl>
+        <channel>${SLACK_CHANNEL}</channel>
+        <username>${APPLICATION_NAME} (${PROFILES}) [${HOSTNAME}]</username>
+        <iconEmoji>:fire:</iconEmoji>
+    </appender>
+
+    <appender name="SLACK_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="SLACK"/>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
+
+    <springProfile name="local">
+        <root level="${LOG_LEVEL}">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="SLACK_ASYNC"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="dev, prod">
+        <include resource="logback/application-appender.xml"/>
+        <include resource="logback/error-appender.xml"/>
+        <root level="${LOG_LEVEL}">
+            <appender-ref ref="APPLICATION"/>
+            <appender-ref ref="ERROR"/>
+            <appender-ref ref="SLACK_ASYNC"/>
+        </root>
+    </springProfile>
+</configuration>

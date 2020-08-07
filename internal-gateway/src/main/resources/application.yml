@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: internal-gateway
+  profiles:
+    active: local
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: info
+    lozm: debug
+    org.springframework:
+      web.filter.CommonsRequestLoggingFilter: debug
+      cloud.loadbalancer.config.BlockingLoadBalancerClientAutoConfiguration: error
+      boot.actuate: error
+    com.netflix:
+      config.sources.URLConfigurationSource: error
+      discovery: error
+    org.hobsoft.spring.resttemplatelogger.LoggingCustomizer: debug
+
+eureka:
+  client:
+    enabled: false
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints.web.exposure.include: '*'
+  endpoint.health.show-details: ALWAYS
+
+zuul:
+#  ignoredServices: '*'
+  ignoredPatterns: /**/actuator/**
+  retryable: true
+  ribbon-isolation-strategy: THREAD
+  thread-pool:
+    use-separate-thread-pools: true
+    thread-pool-key-prefix: zuul-
+  ignore-security-headers: false
+
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+
+ribbon:
+  MaxAutoRetries: 2
+  MaxAutoRetriesNextServer: 3
+  OkToRetryOnAllOperations: true
+  ReadTimeout: 5000
+  ConnectTimeout: 1000
+  MaxTotalConnections: 300
+  MaxConnectionsPerHost: 100
+  retryableStatusCodes: 500
