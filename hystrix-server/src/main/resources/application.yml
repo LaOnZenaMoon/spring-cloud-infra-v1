@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: hystirx-turbine
+    name: hystrix-server
 
   profiles:
     active: local
@@ -12,5 +12,4 @@ logging:
   level:
     root: info
 
-turbine.appConfig: external-gateway
 turbine.clusterNameExpression: new String("default")

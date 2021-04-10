@@ -1,0 +1,56 @@
+server:
+  port: 8882
+
+spring:
+  application:
+    name: gateway-server
+
+  profiles:
+    active: local
+
+logging:
+  level:
+    root: info
+    lozm: debug
+
+zuul:
+  igoredServices: '*'
+  routes:
+    auth-api:
+      path: /auth-api/**
+      serviceId: auth-api
+      stripPrefix: true
+    community-api:
+      path: /community-api/**
+      serviceId: community-api
+      stripPrefix: true
+
+  ws:
+    brokerages:
+      chatting-api:
+        end-points: /end-points
+        brokers:  /topic
+        destination-prefixes: /publish
+  retryable: true
+  ribbon-isolation-strategy: thread
+  thread-pool:
+    use-separate-thread-pools: true
+    thread-pool-key-prefix: gateway-server
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 120000
+
+ribbon:
+  MaxAutoRetries: 2
+  MaxAutoRetriesNextServer: 3
+  OkToRetryOnAllOperations: true
+  ReadTimeout: 5000
+  ConnectTimeout: 1000
+  MaxTotalConnections: 300
+  MaxConnectionsPerHost: 100
+  retryableStatusCodes: 500

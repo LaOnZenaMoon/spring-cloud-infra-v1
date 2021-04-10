@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <property name="LOG_PATH" value="/data/log/gateway-server"/>
+    <property name="APPLICATION_LOG_FILE_NAME" value="application"/>
+    <property name="ERROR_LOG_FILE_NAME" value="error"/>
+    <property name="LOG_CHARSET" value="UTF-8"/>
+
+    <springProfile name="local">
+        <include resource="logback/console-appender.xml"/>
+        <root>
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="dev, prod">
+        <include resource="logback/application-appender.xml"/>
+        <include resource="logback/error-appender.xml"/>
+        <root>
+            <appender-ref ref="APPLICATION"/>
+            <appender-ref ref="ERROR"/>
+        </root>
+    </springProfile>
+</configuration>

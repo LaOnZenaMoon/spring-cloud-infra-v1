@@ -1,0 +1,16 @@
+bootJar { enabled = true }
+jar { enabled = true }
+
+dependencies {
+    compile('org.springframework.retry:spring-retry')
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-zuul')
+
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //Enable Web Socket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    compile group: 'com.github.mthizo247', name: 'spring-cloud-netflix-zuul-websocket', version: '1.0.7.RELEASE'
+}

@@ -1,0 +1,16 @@
+zuul:
+  igoredServices: '*'
+  routes:
+    sample-api:
+      path: /sample-api/**
+      serviceId: sample-api
+      stripPrefix: true
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+    non-secure-port: ${server.port}
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

@@ -1,4 +1,4 @@
-package lozm.eureka.global.config;
+package me.lozm.global.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.Connector;
