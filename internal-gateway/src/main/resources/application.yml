@@ -43,9 +43,9 @@ zuul:
 hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
 
 ribbon:
-  MaxAutoRetries: 2
-  MaxAutoRetriesNextServer: 3
-  OkToRetryOnAllOperations: true
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
   ReadTimeout: 5000
   ConnectTimeout: 1000
   MaxTotalConnections: 300

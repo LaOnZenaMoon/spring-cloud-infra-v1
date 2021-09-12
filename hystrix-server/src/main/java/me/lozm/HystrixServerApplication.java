@@ -1,4 +1,4 @@
-package lozm;
+package me.lozm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,11 +13,11 @@ import org.springframework.cloud.netflix.turbine.EnableTurbine;
 @EnableDiscoveryClient
 @EnableHystrixDashboard
 @SpringBootApplication
-public class HystrixDashboardApplication {
+public class HystrixServerApplication {
 
     public static void main(String[] args) {
         SpringApplication application = new SpringApplicationBuilder()
-                .sources(HystrixDashboardApplication.class)
+                .sources(HystrixServerApplication.class)
                 .listeners(new ApplicationPidFileWriter("./application.pid"))
                 .build();
         application.run(args);

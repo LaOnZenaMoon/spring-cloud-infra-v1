@@ -11,17 +11,17 @@ task deployDev {
                 final jarName = project.name + "-" + project.version + ".jar"
                 final targetName = project.name + "-" + project.version + "-" + new Date().format('yyyyMMdd-HHmmss') + ".jar"
                 final appHome = project.properties["dev.path"] + "/" + project.name
-                println "jar 이름 : ${jarName}"
+                println "jar name : ${jarName}"
 
-                println "서버 파일 전송 시작"
+                println "Start to transfer the jar file."
                 put from: "${project.rootDir}/${project.name}/build/libs/${jarName}", into: "${appHome}/libs/${targetName}"
-                println "서버 파일 전송 완료"
+                println "End to transfer the jar file."
                 sleep(100)
                 execute "ln -sf ${appHome}/libs/${targetName} ${appHome}/${jarName}"
-                println "링크 파일 생성 완료"
+                println "Complete to make the link file."
                 sleep(100)
                 execute "${appHome}/run.sh restart"
-                println "어플리케이션 재기동 완료"
+                println "Complete to restart the application."
                 sleep(100)
             }
         }
